@@ -4,462 +4,377 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Juggler - Multi-Tab PDF Viewer with AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#330000',
+                            800: '#401A1A',
+                            700: '#593333',
+                        },
+                        gold: {
+                            500: '#CC9900',
+                            600: '#664D00',
+                        },
+                        cream: '#FFCC99',
+                        yellow: '#DDDD99',
+                        maroon: {
+                            500: '#993333',
+                            600: '#804D4D',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
 </head>
-<body>
-    <div class="app-container">
-        <!-- Tab Bar -->
-        <div class="tab-bar">
-            <div class="tabs-container" id="tabsContainer">
-                <div class="tab active" data-tab="download">
-                    <span class="tab-title">Download</span>
+<body class="bg-dark-900 text-cream font-['Inter',sans-serif]">
+    <!-- Tab Bar -->
+    <nav class="sticky top-0 z-50 bg-dark-800 border-b border-maroon-600 px-3 py-2 shadow-lg">
+        <div class="flex gap-2 overflow-x-auto">
+            <button onclick="switchTab('download')" data-tab="download" class="tab-btn active px-6 py-2 rounded-lg border border-maroon-600 bg-gold-600 text-cream text-sm font-medium whitespace-nowrap transition-all hover:bg-gold-500 hover:shadow-lg">
+                Download
+            </button>
+            <button onclick="switchTab('about')" data-tab="about" class="tab-btn px-6 py-2 rounded-lg border border-maroon-600 bg-dark-700 text-cream text-sm font-medium whitespace-nowrap transition-all hover:bg-maroon-500 hover:shadow-lg">
+                About
+            </button>
+            <button onclick="switchTab('changelog')" data-tab="changelog" class="tab-btn px-6 py-2 rounded-lg border border-maroon-600 bg-dark-700 text-cream text-sm font-medium whitespace-nowrap transition-all hover:bg-maroon-500 hover:shadow-lg">
+                Changelog
+            </button>
+        </div>
+    </nav>
+
+    <!-- Download Tab -->
+    <div id="downloadTab" class="tab-content active">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
+            <!-- Hero -->
+            <div class="text-center mb-16">
+                <img src="assets/logo.svg" alt="PDF Juggler" class="max-w-md w-full mx-auto mb-6">
+                <h2 class="text-2xl sm:text-3xl font-semibold text-yellow mb-4">Multi-Tab PDF Viewer with AI Assistant</h2>
+                <p class="text-base sm:text-lg text-cream/90 max-w-3xl mx-auto leading-relaxed">
+                    Experience powerful PDF management with intelligent AI chat powered by Google Gemini. Navigate, annotate, and understand your documents effortlessly.
+                </p>
+            </div>
+
+            <!-- Features -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 relative overflow-hidden transition-all hover:scale-[1.02]">
+                    <svg class="w-12 h-12 text-gold-500 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-cream mb-2">Multi-Tab Interface</h3>
+                    <p class="text-sm text-yellow">Open multiple PDFs and switch between them effortlessly</p>
                 </div>
-                <div class="tab" data-tab="about">
-                    <span class="tab-title">About Us</span>
+
+                <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 relative overflow-hidden transition-all hover:scale-[1.02]">
+                    <svg class="w-12 h-12 text-gold-500 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-cream mb-2">AI Chat Assistant</h3>
+                    <p class="text-sm text-yellow">Get intelligent responses powered by Gemini AI</p>
                 </div>
-                <div class="tab" data-tab="changelog">
-                    <span class="tab-title">Changelog</span>
+
+                <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 relative overflow-hidden transition-all hover:scale-[1.02]">
+                    <svg class="w-12 h-12 text-gold-500 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-cream mb-2">Smart Bookmarks</h3>
+                    <p class="text-sm text-yellow">Create and manage bookmarks for quick navigation</p>
                 </div>
+
+                <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 relative overflow-hidden transition-all hover:scale-[1.02]">
+                    <svg class="w-12 h-12 text-gold-500 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-cream mb-2">Advanced Tools</h3>
+                    <p class="text-sm text-yellow">Zoom, rotate, search with powerful viewing tools</p>
+                </div>
+            </div>
+
+            <!-- Downloads -->
+            <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-12 relative overflow-hidden">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-cream text-center mb-2 sm:mb-3 relative z-10">Download PDF Juggler</h2>
+                <p class="text-sm sm:text-base lg:text-lg text-yellow text-center mb-6 sm:mb-8 lg:mb-10 relative z-10">Available for Windows, macOS, and Linux</p>
+                <div class="flex flex-col sm:flex-row justify-center items-stretch gap-4 sm:gap-6 relative z-10">
+                    <!-- Windows Card -->
+                    <div class="card-glow flex-1 min-w-0 sm:min-w-[220px] max-w-xs mx-auto sm:mx-0 bg-dark-700 border border-maroon-600 rounded-xl p-6 relative overflow-hidden flex flex-col items-center transition-all hover:scale-[1.02]">
+                        <img src="assets/Windows.svg" alt="Windows" class="w-12 h-12 mb-4 relative z-10">
+                        <h3 class="text-lg font-semibold text-cream mb-2 relative z-10">Windows</h3>
+                        <p class="text-xs text-yellow mb-4 relative z-10">MSI Installer • Windows 10+</p>
+                        <a href="#" class="px-5 py-2 rounded-lg bg-gold-500 text-dark-900 font-semibold text-sm shadow hover:bg-gold-600 transition-all relative z-10">Download</a>
+                    </div>
+                    <!-- macOS Card -->
+                    <div class="card-glow flex-1 min-w-0 sm:min-w-[220px] max-w-xs mx-auto sm:mx-0 bg-dark-700 border border-maroon-600 rounded-xl p-6 relative overflow-hidden flex flex-col items-center transition-all hover:scale-[1.02]">
+                        <img src="assets/Apple.svg" alt="macOS" class="w-12 h-12 mb-4 relative z-10">
+                        <h3 class="text-lg font-semibold text-cream mb-2 relative z-10">macOS</h3>
+                        <p class="text-xs text-yellow mb-4 relative z-10">DMG Installer • macOS 11+</p>
+                        <a href="#" class="px-5 py-2 rounded-lg bg-gold-500 text-dark-900 font-semibold text-sm shadow hover:bg-gold-600 transition-all relative z-10">Download</a>
+                    </div>
+                    <!-- Linux Card -->
+                    <div class="card-glow flex-1 min-w-0 sm:min-w-[220px] max-w-xs mx-auto sm:mx-0 bg-dark-700 border border-maroon-600 rounded-xl p-6 relative overflow-hidden flex flex-col items-center transition-all hover:scale-[1.02]">
+                        <img src="assets/Linux.svg" alt="Linux" class="w-12 h-12 mb-4 relative z-10">
+                        <h3 class="text-lg font-semibold text-cream mb-2 relative z-10">Linux</h3>
+                        <p class="text-xs text-yellow mb-4 relative z-10">DEB Package • Ubuntu/Debian</p>
+                        <a href="#" class="px-5 py-2 rounded-lg bg-gold-500 text-dark-900 font-semibold text-sm shadow hover:bg-gold-600 transition-all relative z-10">Download</a>
+                    </div>
+                </div>
+                <p class="text-xs text-maroon-600/80 text-center mt-6 leading-relaxed relative z-10">By downloading and using PDF Juggler, you agree to the license terms and privacy statement.</p>
             </div>
         </div>
-        
-        <!-- Main Content Area -->
-        <div class="main-content">
-            <!-- Download Tab Content -->
-            <div class="tab-content active" id="downloadTab">
-                <div class="content-wrapper">
-                    <div class="hero-section">
-                        <img src="logo.svg" alt="PDF Juggler" class="hero-logo">
-                        <p class="hero-subtitle">Multi-Tab PDF Viewer with AI Assistant</p>
-                        <p class="hero-description">
-                            Experience the future of PDF management with our powerful multi-tab viewer featuring 
-                            intelligent AI chat powered by Google Gemini. Navigate, annotate, and understand your 
-                            documents like never before.
-                        </p>
-                    </div>
+    </div>
 
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="3" width="7" height="7"></rect>
-                                <rect x="3" y="14" width="7" height="7"></rect>
-                                <rect x="14" y="14" width="7" height="7"></rect>
-                            </svg>
-                            <h3>Multi-Tab Interface</h3>
-                            <p>Open multiple PDFs simultaneously and switch between them effortlessly</p>
+    <!-- About Tab -->
+    <div id="aboutTab" class="tab-content hidden">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
+            <div class="text-center mb-16">
+                <h1 class="text-4xl lg:text-5xl font-bold text-gold-500 mb-3">About PDF Juggler</h1>
+                <p class="text-xl text-yellow">Created for Softablitz 2025</p>
+            </div>
+
+            <div class="space-y-12">
+                <!-- Introduction -->
+                <section>
+                    <h2 class="text-2xl font-bold text-gold-500 mb-4">Introduction</h2>
+                    <p class="text-cream/90 leading-relaxed mb-4">
+                        <strong class="text-gold-500">PDF Juggler</strong> is a comprehensive desktop PDF management application built with <strong class="text-gold-500">Kotlin Multiplatform</strong> and <strong class="text-gold-500">Jetpack Compose Desktop</strong>. It offers advanced features like AI-powered document analysis, text-to-speech, and seamless PDF editing.
+                    </p>
+                    <p class="text-cream/90 leading-relaxed">
+                        Developed for <strong class="text-gold-500">Softablitz 2025</strong>, our mission was to create a powerful, user-friendly PDF tool combining cutting-edge AI with intuitive design.
+                    </p>
+                </section>
+
+                <!-- Features -->
+                <section>
+                    <h2 class="text-2xl font-bold text-gold-500 mb-6">Key Features</h2>
+                    <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div class="card-glow flex items-start gap-4 p-4 sm:p-6 bg-dark-800 border border-maroon-600 rounded-lg relative overflow-hidden transition-all hover:scale-[1.02]">
+                            <span class="text-3xl relative z-10">📄</span>
+                            <div class="relative z-10">
+                                <strong class="text-cream">PDF Viewing & Navigation</strong>
+                                <p class="text-sm text-yellow mt-1">High-quality rendering with smooth navigation</p>
+                            </div>
                         </div>
-                        <div class="feature-card">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                            <h3>AI Chat Assistant</h3>
-                            <p>Ask questions about your PDF and get intelligent responses powered by Gemini AI</p>
+                        <div class="card-glow flex items-start gap-4 p-4 sm:p-6 bg-dark-800 border border-maroon-600 rounded-lg relative overflow-hidden transition-all hover:scale-[1.02]">
+                            <span class="text-3xl relative z-10">🤖</span>
+                            <div class="relative z-10">
+                                <strong class="text-cream">AI-Powered Analysis</strong>
+                                <p class="text-sm text-yellow mt-1">Generate ToC and summaries using Gemini AI</p>
+                            </div>
                         </div>
-                        <div class="feature-card">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                            <h3>Smart Bookmarks</h3>
-                            <p>Create, manage, and export bookmarks for quick navigation</p>
+                        <div class="card-glow flex items-start gap-4 p-4 sm:p-6 bg-dark-800 border border-maroon-600 rounded-lg relative overflow-hidden transition-all hover:scale-[1.02]">
+                            <span class="text-3xl relative z-10">🔊</span>
+                            <div class="relative z-10">
+                                <strong class="text-cream">Text-to-Speech</strong>
+                                <p class="text-sm text-yellow mt-1">MaryTTS integration for audio conversion</p>
+                            </div>
                         </div>
-                        <div class="feature-card">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                <line x1="11" y1="8" x2="11" y2="14"></line>
-                                <line x1="8" y1="11" x2="14" y2="11"></line>
-                            </svg>
-                            <h3>Advanced Tools</h3>
-                            <p>Zoom, rotate, search, and navigate with powerful viewing tools</p>
+                        <div class="card-glow flex items-start gap-4 p-4 sm:p-6 bg-dark-800 border border-maroon-600 rounded-lg relative overflow-hidden transition-all hover:scale-[1.02]">
+                            <span class="text-3xl relative z-10">🔍</span>
+                            <div class="relative z-10">
+                                <strong class="text-cream">Search & Highlight</strong>
+                                <p class="text-sm text-yellow mt-1">Advanced text search capabilities</p>
+                            </div>
+                        </div>
+                        <div class="card-glow flex items-start gap-4 p-4 sm:p-6 bg-dark-800 border border-maroon-600 rounded-lg relative overflow-hidden transition-all hover:scale-[1.02]">
+                            <span class="text-3xl relative z-10">🔖</span>
+                            <div class="relative z-10">
+                                <strong class="text-cream">Bookmark Management</strong>
+                                <p class="text-sm text-yellow mt-1">Create and manage bookmarks</p>
+                            </div>
+                        </div>
+                        <div class="card-glow flex items-start gap-4 p-4 sm:p-6 bg-dark-800 border border-maroon-600 rounded-lg relative overflow-hidden transition-all hover:scale-[1.02]">
+                            <span class="text-3xl relative z-10">🌐</span>
+                            <div class="relative z-10">
+                                <strong class="text-cream">Multiplatform Support</strong>
+                                <p class="text-sm text-yellow mt-1">Runs on Windows, macOS, and Linux</p>
+                            </div>
                         </div>
                     </div>
+                </section>
 
-                    <div class="download-section">
-                        <h2 class="download-title">Download PDF Juggler</h2>
-                        <p class="download-subtitle">Available for Windows, macOS, and Linux</p>
+                <!-- Team -->
+                <section>
+                    <h2 class="text-2xl font-bold text-gold-500 mb-4">Meet the Team</h2>
+                    <p class="text-yellow mb-6">JholaChhapDevs - MCA 2nd Year</p>
+                    
+                    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                        <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 text-center relative overflow-hidden transition-all hover:scale-[1.02]">
+                            <img src="https://avatars.githubusercontent.com/u/57435219?v=4" alt="Shubham Gupta" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-gold-500 object-cover shadow-lg relative z-10">
+                            <h3 class="text-xl font-semibold text-cream mb-1 relative z-10">Shubham Gupta</h3>
+                            <p class="text-xs text-gold-500 font-semibold uppercase tracking-wide mb-2 relative z-10">Team Leader</p>
+                            <p class="text-sm text-yellow relative z-10">Project architecture, AI integration, and coordination</p>
+                        </div>
+
+                        <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 text-center relative overflow-hidden transition-all hover:scale-[1.02]">
+                            <img src="https://avatars.githubusercontent.com/u/73783285?v=4" alt="Pawan Kumar" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-gold-500 object-cover shadow-lg relative z-10">
+                            <h3 class="text-xl font-semibold text-cream mb-1 relative z-10">Pawan Kumar</h3>
+                            <p class="text-xs text-gold-500 font-semibold uppercase tracking-wide mb-2 relative z-10">Developer</p>
+                            <p class="text-sm text-yellow relative z-10">Core PDF functionality and rendering engine</p>
+                        </div>
+
+                        <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 text-center relative overflow-hidden transition-all hover:scale-[1.02] sm:col-span-2 md:col-span-1">
+                            <img src="https://avatars.githubusercontent.com/u/148613715?v=4" alt="Sanyam Goel" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-gold-500 object-cover shadow-lg relative z-10">
+                            <h3 class="text-xl font-semibold text-cream mb-1 relative z-10">Sanyam Goel</h3>
+                            <p class="text-xs text-gold-500 font-semibold uppercase tracking-wide mb-2 relative z-10">Systems Architect</p>
+                            <p class="text-sm text-yellow relative z-10">Text selection wizard & TTS integration engineer</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tech Stack -->
+                <section>
+                    <h2 class="text-2xl font-bold text-gold-500 mb-6">Technology Stack</h2>
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gold-500 mb-3 border-b border-maroon-600 pb-2">Core Framework</h3>
+                            <div class="grid sm:grid-cols-3 gap-3">
+                                <div class="card-glow bg-dark-800 border border-maroon-600 rounded-lg p-4">
+                                    <div class="font-semibold text-cream text-sm">Kotlin Multiplatform</div>
+                                    <div class="text-xs text-yellow mt-1">Cross-platform development</div>
+                                </div>
+                                <div class="card-glow bg-dark-800 border border-maroon-600 rounded-lg p-4">
+                                    <div class="font-semibold text-cream text-sm">Jetpack Compose</div>
+                                    <div class="text-xs text-yellow mt-1">Declarative UI</div>
+                                </div>
+                                <div class="card-glow bg-dark-800 border border-maroon-600 rounded-lg p-4">
+                                    <div class="font-semibold text-cream text-sm">Coroutines</div>
+                                    <div class="text-xs text-yellow mt-1">Async programming</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold text-gold-500 mb-3 border-b border-maroon-600 pb-2">AI & Speech</h3>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <div class="card-glow bg-dark-800 border border-maroon-600 rounded-lg p-4">
+                                    <div class="font-semibold text-cream text-sm">Google Gemini API</div>
+                                    <div class="text-xs text-yellow mt-1">AI-powered analysis</div>
+                                </div>
+                                <div class="card-glow bg-dark-800 border border-maroon-600 rounded-lg p-4">
+                                    <div class="font-semibold text-cream text-sm">MaryTTS</div>
+                                    <div class="text-xs text-yellow mt-1">Text-to-speech engine</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact -->
+                <section class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 sm:p-8 relative overflow-hidden">
+                    <h2 class="text-2xl font-bold text-gold-500 mb-4 relative z-10">Get in Touch</h2>
+                    <p class="text-cream/90 mb-6 relative z-10">Have questions or feedback? We'd love to hear from you!</p>
+                    
+                    <div class="space-y-3 text-cream/90 relative z-10">
+                        <p><strong class="text-gold-500">Team:</strong> JholaChhapDevs</p>
+                        <p><strong class="text-gold-500">Competition:</strong> Softablitz 2025</p>
+                        <p><strong class="text-gold-500">Institution:</strong> MCA 2nd Year</p>
                         
-                        <div class="download-buttons">
-                            <a href="#" class="download-btn windows">
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
-                                </svg>
-                                <div class="download-info">
-                                    <span class="platform">Windows</span>
-                                    <span class="file-info">MSI Installer • Windows 10+</span>
-                                </div>
-                            </a>
-                            <a href="#" class="download-btn macos">
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                                </svg>
-                                <div class="download-info">
-                                    <span class="platform">macOS</span>
-                                    <span class="file-info">DMG Installer • macOS 11+</span>
-                                </div>
-                            </a>
-                            <a href="#" class="download-btn linux">
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20.581 19.049c-.55-.446-.336-1.431-.907-1.917.553-3.365-.997-6.331-2.845-8.232-1.551-1.595-1.051-3.147-1.051-4.49 0-2.146-.881-4.41-3.55-4.41-2.853 0-3.635 2.38-3.663 3.738-.068 3.262.659 4.11-1.25 6.484-2.246 2.793-2.577 5.579-2.07 7.057-.237.276-.557.582-1.155.835-1.652.72-.441 1.925-.898 2.78-.13.243-.192.497-.192.74 0 .75.596 1.399 1.679 1.302 1.461-.13 2.809.905 3.681.905.77 0 1.402-.438 1.696-1.041 1.377-.339 3.077-.296 4.453.059.247.691.917 1.141 1.662 1.141 1.631 0 1.945-1.849 3.816-2.475.674-.225 1.013-.879 1.013-1.488 0-.39-.139-.761-.419-.988zM7.462 10.849c.132-.047.263-.069.396-.069 1.005 0 1.68.897 2.383 1.861.464.636 1.011 1.387 1.677 1.387.655 0 1.222-.718 1.637-1.284.493-.674 1.028-1.406 1.798-1.406.15 0 .301.028.451.082 1.638.553 3.123 3.184 2.443 6.197-.828 3.672-5.122 4.166-7.568 4.166-2.644 0-5.428-.541-6.196-3.119-.645-2.164.742-5.394 2.979-7.815zm5.475 2.124c-.433 0-.785-.527-.785-1.179s.352-1.179.785-1.179.785.527.785 1.179-.352 1.179-.785 1.179zm-4.545-1.179c0-.652.352-1.179.785-1.179s.785.527.785 1.179-.352 1.179-.785 1.179-.785-.527-.785-1.179z"/>
-                                </svg>
-                                <div class="download-info">
-                                    <span class="platform">Linux</span>
-                                    <span class="file-info">DEB Package • Ubuntu/Debian</span>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="coming-soon-section">
-                            <h3>Coming Soon</h3>
-                            <div class="coming-soon-platforms">
-                                <div class="platform-badge">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24a11.5 11.5 0 0 0-8.94 0L5.65 5.67c-.19-.28-.54-.37-.83-.22-.3.16-.42.54-.26.85l1.84 3.18C2.92 11.03 1 14.22 1 17.83h22c0-3.61-1.92-6.8-5.4-8.35zM7.5 15.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm9 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+                        <!-- Email Section -->
+                        <div class="pt-4 border-t border-gold-500/20">
+                            <p class="text-gold-500 font-semibold mb-3">Contact us:</p>
+                            <p class="text-cream mb-4">jholachhapdevs@gmail.com</p>
+                            <div class="flex items-center gap-4">
+                                <a href="mailto:jholachhapdevs@gmail.com" 
+                                   title="Open in Email Client"
+                                   class="group relative p-3 border-2 border-gold-500/50 hover:border-gold-500 rounded-lg bg-transparent hover:bg-gold-500/10 transition-all">
+                                    <svg class="w-6 h-6 text-gold-500 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
-                                    <span>Android</span>
-                                </div>
-                                <div class="platform-badge">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                                    <span class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-yellow whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Email Client</span>
+                                </a>
+                                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jholachhapdevs@gmail.com" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   title="Open in Gmail"
+                                   class="group relative p-3 border-2 border-gold-500/50 hover:border-gold-500 rounded-lg bg-transparent hover:bg-gold-500/10 transition-all">
+                                    <svg class="w-6 h-6 text-gold-500 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
                                     </svg>
-                                    <span>iOS</span>
-                                </div>
+                                    <span class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs text-yellow whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Gmail</span>
+                                </a>
                             </div>
-                            <p class="kmp-info">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <line x1="12" y1="16" x2="12" y2="12"></line>
-                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                                </svg>
-                                Built with <strong>Kotlin Multiplatform</strong> for native performance across all platforms
-                            </p>
                         </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
 
-                        <p class="version-info">Latest Version: 1.0.0 • Released: October 2025 • Softablitz 2025</p>
+    <!-- Changelog Tab -->
+    <div id="changelogTab" class="tab-content hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-16">
+            <!-- Header -->
+            <div class="text-center mb-8 sm:mb-12 lg:mb-16">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gold-500 via-yellow to-cream mb-3">
+                    Project Evolution Timeline
+                </h1>
+                <p class="text-base sm:text-lg text-yellow mb-6 sm:mb-8">Track our journey from concept to completion</p>
+                
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 max-w-4xl mx-auto">
+                    <div class="card-glow bg-dark-800 border border-maroon-600 rounded-lg sm:rounded-xl p-4 sm:p-6 relative overflow-hidden transition-all hover:scale-[1.02]">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gold-500 relative z-10" id="commitCount">0</div>
+                        <div class="text-[10px] sm:text-xs text-cream uppercase tracking-wide mt-1 relative z-10">Commits</div>
+                    </div>
+                    <div class="card-glow bg-dark-800 border border-maroon-600 rounded-lg sm:rounded-xl p-4 sm:p-6 relative overflow-hidden transition-all hover:scale-[1.02]">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gold-500 relative z-10" id="prCount">0</div>
+                        <div class="text-[10px] sm:text-xs text-cream uppercase tracking-wide mt-1 relative z-10">Pull Requests</div>
+                    </div>
+                    <div class="card-glow bg-dark-800 border border-maroon-600 rounded-lg sm:rounded-xl p-4 sm:p-6 relative overflow-hidden transition-all hover:scale-[1.02]">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gold-500 relative z-10">10</div>
+                        <div class="text-[10px] sm:text-xs text-cream uppercase tracking-wide mt-1 relative z-10">Days Sprint</div>
+                    </div>
+                    <div class="card-glow bg-dark-800 border border-maroon-600 rounded-lg sm:rounded-xl p-4 sm:p-6 relative overflow-hidden transition-all hover:scale-[1.02]">
+                        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gold-500 relative z-10">3</div>
+                        <div class="text-[10px] sm:text-xs text-cream uppercase tracking-wide mt-1 relative z-10">Developers</div>
                     </div>
                 </div>
             </div>
 
-            <!-- About Us Tab Content -->
-            <div class="tab-content" id="aboutTab">
-                <div class="content-wrapper">
-                    <div class="about-hero">
-                        <h1 class="about-title">About PDF Juggler</h1>
-                        <p class="about-subtitle">Created for Softablitz 2025</p>
-                    </div>
-
-                    <div class="about-content">
-                        <div class="about-section">
-                            <h2>Introduction</h2>
-                            <p>
-                                <strong>PDF Juggler</strong> is a comprehensive desktop PDF management application that provides 
-                                an intuitive interface for reading, editing, and manipulating PDF documents. Built using 
-                                <strong>Kotlin Multiplatform</strong> and <strong>Jetpack Compose Desktop</strong>, it offers 
-                                advanced features like AI-powered document analysis, text-to-speech capabilities, and seamless 
-                                PDF editing tools.
-                            </p>
-                            <p>
-                                Developed as part of <strong>Softablitz 2025</strong>, our mission was to create a powerful, 
-                                user-friendly PDF management tool that combines cutting-edge AI technology with intuitive design. 
-                                What started as a PDF viewer evolved into a comprehensive document management solution with 
-                                intelligent features powered by Google's Gemini AI.
-                            </p>
-                        </div>
-
-                        <div class="about-section">
-                            <h2>Key Features</h2>
-                            <div class="features-list">
-                                <div class="feature-item">
-                                    <span class="feature-icon">📄</span>
-                                    <div>
-                                        <strong>PDF Viewing & Navigation</strong>
-                                        <p>High-quality PDF rendering with smooth navigation and zoom controls</p>
-                                    </div>
-                                </div>
-                                <div class="feature-item">
-                                    <span class="feature-icon">🤖</span>
-                                    <div>
-                                        <strong>AI-Powered Analysis</strong>
-                                        <p>Generate table of contents and document summaries using Google Gemini AI</p>
-                                    </div>
-                                </div>
-                                <div class="feature-item">
-                                    <span class="feature-icon">🔊</span>
-                                    <div>
-                                        <strong>Text-to-Speech</strong>
-                                        <p>Convert PDF text to speech with MaryTTS integration</p>
-                                    </div>
-                                </div>
-                                <div class="feature-item">
-                                    <span class="feature-icon">🔍</span>
-                                    <div>
-                                        <strong>Search & Highlight</strong>
-                                        <p>Advanced text search with highlighting capabilities</p>
-                                    </div>
-                                </div>
-                                <div class="feature-item">
-                                    <span class="feature-icon">🔖</span>
-                                    <div>
-                                        <strong>Bookmark Management</strong>
-                                        <p>Create and manage bookmarks for quick navigation</p>
-                                    </div>
-                                </div>
-                                <div class="feature-item">
-                                    <span class="feature-icon">📑</span>
-                                    <div>
-                                        <strong>Page Management</strong>
-                                        <p>Reorder, extract, and manipulate PDF pages</p>
-                                    </div>
-                                </div>
-                                <div class="feature-item">
-                                    <span class="feature-icon">🖨️</span>
-                                    <div>
-                                        <strong>Print Support</strong>
-                                        <p>Advanced printing options with custom settings</p>
-                                    </div>
-                                </div>
-                                <div class="feature-item">
-                                    <span class="feature-icon">🔒</span>
-                                    <div>
-                                        <strong>Encryption/Decryption</strong>
-                                        <p>Secure document handling with encryption capabilities</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="team-section">
-                            <h2>Meet the Team</h2>
-                            <p class="team-intro">JholaChhapDevs - MCA 2nd Year</p>
-                            
-                            <div class="team-grid">
-                                <div class="team-card">
-                                    <div class="team-avatar">
-                                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                            <circle cx="12" cy="7" r="4"></circle>
-                                        </svg>
-                                    </div>
-                                    <h3>Shubham Gupta</h3>
-                                    <p class="role">Team Leader</p>
-                                    <p class="bio">Project architecture, AI integration, and overall coordination</p>
-                                </div>
-                                <div class="team-card">
-                                    <div class="team-avatar">
-                                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                            <circle cx="12" cy="7" r="4"></circle>
-                                        </svg>
-                                    </div>
-                                    <h3>Pawan Kumar</h3>
-                                    <p class="role">Developer</p>
-                                    <p class="bio">Core PDF functionality and rendering engine implementation</p>
-                                </div>
-                                <div class="team-card">
-                                    <div class="team-avatar">
-                                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                            <circle cx="12" cy="7" r="4"></circle>
-                                        </svg>
-                                    </div>
-                                    <h3>Sanyam Goel</h3>
-                                    <p class="role">Systems Architect</p>
-                                    <p class="bio">Low-level wizard who built text selection from scratch & engineered TTS integration</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tech-section">
-                            <h2>Technology Stack</h2>
-                            <div class="tech-categories">
-                                <div class="tech-category">
-                                    <h3>Core Framework</h3>
-                                    <div class="tech-grid">
-                                        <div class="tech-item">
-                                            <span class="tech-name">Kotlin Multiplatform</span>
-                                            <span class="tech-desc">Cross-platform development</span>
-                                        </div>
-                                        <div class="tech-item">
-                                            <span class="tech-name">Jetpack Compose Desktop</span>
-                                            <span class="tech-desc">Modern declarative UI</span>
-                                        </div>
-                                        <div class="tech-item">
-                                            <span class="tech-name">Coroutines</span>
-                                            <span class="tech-desc">Asynchronous programming</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="tech-category">
-                                    <h3>PDF Processing</h3>
-                                    <div class="tech-grid">
-                                        <div class="tech-item">
-                                            <span class="tech-name">Apache PDFBox</span>
-                                            <span class="tech-desc">PDF manipulation library</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="tech-category">
-                                    <h3>AI & Speech</h3>
-                                    <div class="tech-grid">
-                                        <div class="tech-item">
-                                            <span class="tech-name">Google Gemini API</span>
-                                            <span class="tech-desc">AI-powered analysis</span>
-                                        </div>
-                                        <div class="tech-item">
-                                            <span class="tech-name">MaryTTS</span>
-                                            <span class="tech-desc">Text-to-speech engine</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="tech-category">
-                                    <h3>UI & Navigation</h3>
-                                    <div class="tech-grid">
-                                        <div class="tech-item">
-                                            <span class="tech-name">Material 3 Design</span>
-                                            <span class="tech-desc">Modern design system</span>
-                                        </div>
-                                        <div class="tech-item">
-                                            <span class="tech-name">Voyager Navigation</span>
-                                            <span class="tech-desc">Type-safe navigation</span>
-                                        </div>
-                                        <div class="tech-item">
-                                            <span class="tech-name">Ktor Client</span>
-                                            <span class="tech-desc">HTTP networking</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="contact-section">
-                            <h2>Get in Touch</h2>
-                            <p>Have questions or feedback? We'd love to hear from you!</p>
-                            <div class="contact-info">
-                                <p><strong>Team:</strong> JholaChhapDevs</p>
-                                <p><strong>Competition:</strong> Softablitz 2025</p>
-                                <p><strong>Institution:</strong> MCA 2nd Year</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Timeline -->
+            <div id="timeline" class="max-w-5xl mx-auto mb-8 sm:mb-12 lg:mb-16">
+                <!-- Timeline items will be inserted here by JavaScript -->
             </div>
 
-            <!-- Changelog Tab Content -->
-            <div class="tab-content" id="changelogTab">
-                <div class="content-wrapper">
-                    <div class="changelog-header">
-                        <h1>Development Timeline</h1>
-                        <p class="changelog-subtitle">Track our journey from concept to completion</p>
-                        <div class="changelog-stats">
-                            <div class="stat-card">
-                                <div class="stat-number" id="commitCount">0</div>
-                                <div class="stat-label">Commits</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number" id="prCount">0</div>
-                                <div class="stat-label">Pull Requests</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number">10</div>
-                                <div class="stat-label">Days Sprint</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number">3</div>
-                                <div class="stat-label">Developers</div>
-                            </div>
-                        </div>
+            <!-- Development Highlights -->
+            <div class="max-w-6xl mx-auto">
+                <h3 class="text-xl sm:text-2xl font-semibold text-cream text-center mb-6 sm:mb-8">Development Highlights</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 text-center relative overflow-hidden transition-all hover:scale-[1.02]">
+                        <span class="text-3xl sm:text-4xl mb-3 block relative z-10">🔥</span>
+                        <h4 class="text-base sm:text-lg font-semibold text-gold-500 mb-2 relative z-10">Rapid Development</h4>
+                        <p class="text-xs sm:text-sm text-yellow relative z-10">Concept to beta in 10 days</p>
                     </div>
-
-                    <div class="timeline" id="timeline">
-                        <!-- Populated dynamically -->
+                    <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 text-center relative overflow-hidden transition-all hover:scale-[1.02]">
+                        <span class="text-3xl sm:text-4xl mb-3 block relative z-10">🤝</span>
+                        <h4 class="text-base sm:text-lg font-semibold text-gold-500 mb-2 relative z-10">Team Collaboration</h4>
+                        <p class="text-xs sm:text-sm text-yellow relative z-10">Seamless teamwork</p>
                     </div>
-
-                    <div class="changelog-footer">
-                        <h3>Development Highlights</h3>
-                        <div class="highlights-grid">
-                            <div class="highlight-card">
-                                <span class="highlight-icon">🔥</span>
-                                <h4>Rapid Development</h4>
-                                <p>From concept to beta in just 10 days</p>
-                            </div>
-                            <div class="highlight-card">
-                                <span class="highlight-icon">🤝</span>
-                                <h4>Team Collaboration</h4>
-                                <p>14 merged pull requests, seamless teamwork</p>
-                            </div>
-                            <div class="highlight-card">
-                                <span class="highlight-icon">🧠</span>
-                                <h4>AI Innovation</h4>
-                                <p>Gemini API integration with context awareness</p>
-                            </div>
-                            <div class="highlight-card">
-                                <span class="highlight-icon">⚡</span>
-                                <h4>Performance Focus</h4>
-                                <p>High-quality rendering with adaptive DPI</p>
-                            </div>
-                        </div>
+                    <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 text-center relative overflow-hidden transition-all hover:scale-[1.02]">
+                        <span class="text-3xl sm:text-4xl mb-3 block relative z-10">🧠</span>
+                        <h4 class="text-base sm:text-lg font-semibold text-gold-500 mb-2 relative z-10">AI Innovation</h4>
+                        <p class="text-xs sm:text-sm text-yellow relative z-10">Gemini API integration</p>
+                    </div>
+                    <div class="card-glow bg-dark-800 border border-maroon-600 rounded-xl p-6 text-center relative overflow-hidden transition-all hover:scale-[1.02]">
+                        <span class="text-3xl sm:text-4xl mb-3 block relative z-10">⚡</span>
+                        <h4 class="text-base sm:text-lg font-semibold text-gold-500 mb-2 relative z-10">Performance Focus</h4>
+                        <p class="text-xs sm:text-sm text-yellow relative z-10">High-quality rendering</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="script.js"></script>
-                <div class="ai-chat-header">
-                    <h3>PDF Juggler AI</h3>
-                    <div class="ai-header-actions">
-                        <button class="btn-icon" id="btnGenerateCheatSheet" title="Generate Cheat Sheet">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                            </svg>
-                        </button>
-                        <button class="btn-icon" id="btnClearChat" title="Clear Chat">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="3 6 5 6 21 6"></polyline>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Error Banner -->
-                <div class="ai-error-banner hidden" id="aiErrorBanner">
-                    <div class="ai-error-content">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
-                        <span id="aiErrorText"></span>
-                    </div>
-                    <button class="btn-icon-small" id="btnDismissError">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="ai-chat-messages" id="aiChatMessages">
-                    <div class="ai-welcome">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                        </svg>
-                        <p>Ask anything about this PDF...</p>
-                    </div>
-                </div>
-
-                <!-- Jump to Bottom Button -->
-                <button class="btn-jump-bottom hidden" id="btnJumpBottom">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </button>
-
-
+</body>
+</html>
