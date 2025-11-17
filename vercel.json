@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/download/windows",
+      "destination": "https://www.google.com",
+      "permanent": false
+    },
+    {
+      "source": "/download/mac",
+      "destination": "https://link-to-mac.dmg",
+      "permanent": false
+    }
+  ]
+}

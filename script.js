@@ -18,9 +18,10 @@ function initializeGlowEffect() {
             }
         });
         
-        // Don't reset position on mouseleave - let it fade from current position
+        // Reset glow position when mouse leaves
         card.addEventListener('mouseleave', () => {
-            // Position stays where it was, only opacity changes via CSS
+            card.style.setProperty('--x', '50%');
+            card.style.setProperty('--y', '50%');
         });
     });
 }
