@@ -103,16 +103,19 @@
             </div>
 
             <!-- Downloads -->
-            <section class="card-glow bg-dark-800 border border-maroon-600 rounded-2xl p-8 lg:p-12 space-y-10">
-                <div class="space-y-4 text-center">
-                    <span id="downloadVersionLabel" class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-500/40 text-xs tracking-[0.2em] text-gold-300 uppercase">
+            <section class="card-glow bg-dark-800 border border-maroon-600 rounded-2xl p-6 sm:p-8 lg:p-12 space-y-10">
+                <div class="space-y-6 text-center">
+                    <span id="downloadVersionLabel" data-version-code="1" class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-500/40 text-[0.65rem] tracking-[0.35em] text-gold-300 uppercase">
                         <span class="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
-                        v1.0.0-beta
+                        v1.0.0
                     </span>
-                    <h2 class="text-3xl sm:text-4xl font-bold text-cream">Grab PDF Juggler</h2>
-                    <p id="downloadFallbackMessage" class="text-yellow/90 max-w-2xl mx-auto">One download per platform. No fluff—just the installers you need.</p>
-                    <div class="flex flex-wrap justify-center gap-3">
-                        <button type="button" id="openChangelogModal" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-gold-500/30 text-cream text-sm font-semibold hover:border-gold-500 hover:text-gold-400 transition-all">
+                    <div class="space-y-3">
+                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-cream">Grab PDF Juggler</h2>
+                        <p id="downloadFallbackMessage" class="text-sm sm:text-base text-yellow/90 max-w-2xl mx-auto">Latest builds are ready below.</p>
+                        <p id="downloadChangelogText" class="text-xs text-yellow/70 max-w-2xl mx-auto">Changelog info will appear once synced.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3">
+                        <button type="button" id="openChangelogModal" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-gold-500/30 text-cream text-sm font-semibold hover:border-gold-500 hover:text-gold-400 transition-all">
                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M5 7h14"></path>
                                 <path d="M5 12h9"></path>
@@ -120,62 +123,62 @@
                             </svg>
                             View changelog
                         </button>
-                        <a href="https://github.com/JholaChhapDevs/PDF-Juggler" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-maroon-600 text-cream text-sm font-semibold hover:text-gold-400 hover:border-gold-500 transition-all">
+                        <a href="https://github.com/JholaChhapDevs/PDF-Juggler" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border border-maroon-600 text-cream text-sm font-semibold hover:text-gold-400 hover:border-gold-500 transition-all">
                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 .297a12 12 0 00-3.797 23.4c.6.111.82-.261.82-.58 0-.287-.01-1.047-.016-2.055-3.338.725-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.089-.744.083-.729.083-.729 1.205.086 1.84 1.236 1.84 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.775.418-1.305.762-1.605-2.666-.305-5.467-1.333-5.467-5.931 0-1.31.468-2.381 1.236-3.221-.124-.304-.536-1.528.117-3.183 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 013.003-.404c1.018.005 2.044.138 3.003.404 2.292-1.552 3.298-1.23 3.298-1.23.655 1.655.243 2.879.12 3.183.77.84 1.235 1.911 1.235 3.221 0 4.61-2.804 5.624-5.476 5.921.43.37.814 1.102.814 2.222 0 1.604-.015 2.897-.015 3.293 0 .322.216.697.825.579A12.004 12.004 0 0012 .297z"/>
+                                <path d="M12 .297a12 12 0 00-3.797 23.4c.6.111.82-.261.82-.58 0-.287-.01-1.047-.016-2.055-3.338.725-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.089-.744.083-.729.083-.729 1.205.086 1.84 1.236 1.84 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.775.418-1.305.762-1.605-2.666-.305-5.467-1.333-5.467-5.931 0-1.31.468-2.381 1.236-3.221-.124-.304-.536-1.528.117-3.183 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 013.003-.404c1.018.005 2.044.138 3.003.404 2.292-1.552 3.298-1.23 3.298-1.23.655 1.655.243 2.879.12 3.183.77.84 1.235 1.911 1.235 3.221 0 4.61-2.804 5.624-5.476 5.921.43.37.814 1.102.814 2.222 0 1.604-.015 2.897-.015 3.293 0 .322.216.697.825.579A12.004 12.004 0 0012 .297z"></path>
                             </svg>
                             View source
                         </a>
                     </div>
                 </div>
-                <div class="grid gap-4 md:grid-cols-3">
-                    <article class="card-glow bg-dark-700 border border-maroon-600 rounded-2xl p-6 text-center space-y-4">
-                        <div class="flex items-center justify-center gap-3">
-                            <img src="assets/Windows.svg" alt="Windows" class="w-8 h-8">
-                            <div class="text-left">
-                                <p class="text-cream font-semibold">Windows</p>
+                <div class="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                    <article class="card-glow bg-dark-700 border border-maroon-600 rounded-2xl p-6 flex h-full flex-col gap-4 text-center sm:text-left">
+                        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3 text-center sm:text-left">
+                            <img src="assets/Windows.svg" alt="Windows" class="w-10 h-10">
+                            <div>
+                                <p class="text-lg font-semibold text-cream">Windows</p>
                                 <p class="text-xs text-yellow/70">MSI • Windows 10+</p>
                             </div>
                         </div>
                         <p class="text-sm text-yellow/80" data-requirements-label="windows">Stable MSI build for Windows 10+.</p>
-                        <a href="downloads/pdf-juggler-windows.msi" data-default-href="downloads/pdf-juggler-windows.msi" data-platform-download="windows" download class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-gold-500 text-gold-300 text-sm font-semibold hover:bg-gold-500/10 hover:text-gold-200 transition-all">
+                        <a href="https://github.com/JholaChhapDevs/PDF-Juggler/releases/download/1.0.0_beta/PDF-Juggler-1.0.0.msi" data-default-href="downloads/pdf-juggler-windows.msi" data-platform-download="windows" download class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-gold-500 text-gold-300 text-sm font-semibold hover:bg-gold-500/10 hover:text-gold-200 transition-all">
                             Download .msi
                         </a>
-                        <p class="text-[11px] text-yellow/60 truncate" data-checksum-label="windows" title="Checksum: pending">Checksum: pending</p>
+                        <p class="text-[11px] text-yellow/60 truncate" data-checksum-label="windows" title="Checksum: 7c1e4924b62adba76997e6dde201e7a78195bb1f07fe6b0c22ded121c51f9c73">Checksum: 7c1e4924b62adba76997e6dde201e7a78195bb1f07fe6b0c22ded121c51f9c73</p>
                     </article>
 
-                    <article class="card-glow bg-dark-700 border border-maroon-600 rounded-2xl p-6 text-center space-y-4">
-                        <div class="flex items-center justify-center gap-3">
-                            <img src="assets/Apple.svg" alt="macOS" class="w-8 h-8">
-                            <div class="text-left">
-                                <p class="text-cream font-semibold">macOS</p>
+                    <article class="card-glow bg-dark-700 border border-maroon-600 rounded-2xl p-6 flex h-full flex-col gap-4 text-center sm:text-left">
+                        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3 text-center sm:text-left">
+                            <img src="assets/Apple.svg" alt="macOS" class="w-10 h-10">
+                            <div>
+                                <p class="text-lg font-semibold text-cream">macOS</p>
                                 <p class="text-xs text-yellow/70">Universal DMG</p>
                             </div>
                         </div>
-                        <p class="text-sm text-yellow/80" data-requirements-label="macos">Universal DMG for macOS 11+</p>
-                        <a href="downloads/pdf-juggler-macos.dmg" data-default-href="downloads/pdf-juggler-macos.dmg" data-platform-download="macos" download class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-gold-500 text-gold-300 text-sm font-semibold hover:bg-gold-500/10 hover:text-gold-200 transition-all">
+                        <p class="text-sm text-yellow/80" data-requirements-label="macos">Universal DMG for macOS 11+.</p>
+                        <a href="https://github.com/JholaChhapDevs/PDF-Juggler/releases/download/1.0.0_beta/PDF-Juggler-1.0.0.dmg" data-default-href="downloads/pdf-juggler-macos.dmg" data-platform-download="macos" download class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-gold-500 text-gold-300 text-sm font-semibold hover:bg-gold-500/10 hover:text-gold-200 transition-all">
                             Download .dmg
                         </a>
-                        <p class="text-[11px] text-yellow/60 truncate" data-checksum-label="macos" title="Checksum: pending">Checksum: pending</p>
+                        <p class="text-[11px] text-yellow/60 truncate" data-checksum-label="macos" title="Checksum: 7f83a7cc4d1762443f2f107e77a0de92afdd6addf35b239e4bfd35899532efd1">Checksum: 7f83a7cc4d1762443f2f107e77a0de92afdd6addf35b239e4bfd35899532efd1</p>
                     </article>
 
-                    <article class="card-glow bg-dark-700 border border-maroon-600 rounded-2xl p-6 text-center space-y-4">
-                        <div class="flex items-center justify-center gap-3">
-                            <img src="assets/Linux.svg" alt="Linux" class="w-8 h-8">
-                            <div class="text-left">
-                                <p class="text-cream font-semibold">Linux</p>
+                    <article class="card-glow bg-dark-700 border border-maroon-600 rounded-2xl p-6 flex h-full flex-col gap-4 text-center sm:text-left">
+                        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3 text-center sm:text-left">
+                            <img src="assets/Linux.svg" alt="Linux" class="w-10 h-10">
+                            <div>
+                                <p class="text-lg font-semibold text-cream">Linux</p>
                                 <p class="text-xs text-yellow/70">DEB • AppImage</p>
                             </div>
                         </div>
                         <p class="text-sm text-yellow/80" data-requirements-label="linux">Signed DEB for Ubuntu 20.04+/Fedora 39+.</p>
-                        <a href="downloads/pdf-juggler-linux.deb" data-default-href="downloads/pdf-juggler-linux.deb" data-platform-download="linux" download class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-gold-500 text-gold-300 text-sm font-semibold hover:bg-gold-500/10 hover:text-gold-200 transition-all">
+                        <a href="https://github.com/JholaChhapDevs/PDF-Juggler/releases/download/1.0.0_beta/pdf-juggler_1.0.0_amd64.deb" data-default-href="downloads/pdf-juggler-linux.deb" data-platform-download="linux" download class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-gold-500 text-gold-300 text-sm font-semibold hover:bg-gold-500/10 hover:text-gold-200 transition-all">
                             Download .deb
                         </a>
-                        <p class="text-[11px] text-yellow/60 truncate" data-checksum-label="linux" title="Checksum: pending">Checksum: pending</p>
+                        <p class="text-[11px] text-yellow/60 truncate" data-checksum-label="linux" title="Checksum: ba931df5e7a420b900c655d61377d439513cce756edbb47eb9b0c5cfbf280930">Checksum: ba931df5e7a420b900c655d61377d439513cce756edbb47eb9b0c5cfbf280930</p>
                     </article>
                 </div>
 
-                <p class="text-xs text-yellow/70 text-center">Have any Queries? <a href="mailto:jholachhapdevs@gmail.com" class="text-gold-400 underline">Email the team</a>.</p>
+                <p class="text-xs text-yellow/70 text-center">Have any queries? <a href="mailto:jholachhapdevs@gmail.com" class="text-gold-400 underline">Email the team</a>.</p>
             </section>
         </div>
     </div>
