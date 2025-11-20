@@ -1,27 +1,31 @@
 // PDF Juggler - Tailwind Version
 // Team: JholaChhapDevs
 
+const UPDATE_ENDPOINT = 'https://kanha321.github.io/pages/pdf-juggler/update.json';
+let releaseMetadata = null;
+let releaseMetadataPromise = null;
+
 // Initialize glow effect on all cards
+function setGlowPosition(card, event) {
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    card.style.setProperty('--x', `${x}px`);
+    card.style.setProperty('--y', `${y}px`);
+}
+
 function initializeGlowEffect() {
     const glowCards = document.querySelectorAll('.card-glow');
     glowCards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
-            // Check if we're hovering a nested card-glow element
             const isHoveringNestedCard = e.target.closest('.card-glow') !== card;
-            
             if (!isHoveringNestedCard) {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--x', `${x}px`);
-                card.style.setProperty('--y', `${y}px`);
+                setGlowPosition(card, e);
             }
         });
-        
-        // Reset glow position when mouse leaves
-        card.addEventListener('mouseleave', () => {
-            card.style.setProperty('--x', '50%');
-            card.style.setProperty('--y', '50%');
+
+        card.addEventListener('mouseleave', (e) => {
+            setGlowPosition(card, e);
         });
     });
 }
@@ -52,21 +56,14 @@ function switchTab(tabName) {
     }
 }
 
-// Download buttons
 document.addEventListener('DOMContentLoaded', () => {
-    const downloadBtns = document.querySelectorAll('.download-btn');
-    downloadBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Thank you for your interest!\n\nDownloads will be available soon. Check back later or contact the team for early access.');
-        });
-    });
-
     // Only enable glow effect for non-touch devices
     if (window.matchMedia('(pointer: fine)').matches) {
         initializeGlowEffect();
     }
 
+    setupChangelogModal();
+    initializeDownloads().catch(err => console.error('Download metadata failed:', err));
     // Load changelog
     loadChangelog().catch(err => console.error('Changelog failed:', err));
 
@@ -231,4 +228,173 @@ function escapeHtml(s) {
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
+}
+
+async function initializeDownloads() {
+    const versionLabel = document.getElementById('downloadVersionLabel');
+    const changelogText = document.getElementById('downloadChangelogText');
+    const fallbackMessage = document.getElementById('downloadFallbackMessage');
+    const platformButtons = document.querySelectorAll('[data-platform-download]');
+
+    try {
+        const releaseInfo = await getReleaseMetadata();
+
+        if (versionLabel && releaseInfo.latestVersionName) {
+            versionLabel.textContent = `v${releaseInfo.latestVersionName}`;
+            if (releaseInfo.latestVersionCode != null) {
+                versionLabel.dataset.versionCode = releaseInfo.latestVersionCode;
+            }
+        }
+
+        if (changelogText && releaseInfo.changelog) {
+            changelogText.textContent = `Changelog: ${releaseInfo.changelog}`;
+        }
+
+        if (fallbackMessage) {
+            fallbackMessage.textContent = releaseInfo.mandatory ? 'Mandatory update. Please install the latest build below.' : 'Latest builds are ready below.';
+        }
+
+        if (releaseInfo.platforms && platformButtons.length) {
+            Object.entries(releaseInfo.platforms).forEach(([platform, info]) => {
+                const button = document.querySelector(`[data-platform-download="${platform}"]`);
+                if (!button) {
+                    return;
+                }
+
+                if (info.downloadUrl) {
+                    button.href = info.downloadUrl;
+                }
+
+                const checksumLabel = document.querySelector(`[data-checksum-label="${platform}"]`);
+                if (checksumLabel) {
+                    const checksumText = info.checksum ? `Checksum: ${info.checksum}` : 'Checksum: pending';
+                    checksumLabel.textContent = checksumText;
+                    checksumLabel.title = checksumText;
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Failed to sync download info:', error);
+        if (fallbackMessage) {
+            fallbackMessage.textContent = 'Unable to reach update server. Using fallback installers.';
+        }
+    }
+}
+
+function markdownToHtml(markdown) {
+    if (!markdown) return '';
+    if (window.marked && typeof window.marked.parse === 'function') {
+        return window.marked.parse(markdown);
+    }
+    return escapeHtml(markdown)
+        .replace(/\n{2,}/g, '<br><br>')
+        .replace(/\n/g, '<br>');
+}
+
+function setupChangelogModal() {
+    const modal = document.getElementById('changelogModal');
+    const openBtn = document.getElementById('openChangelogModal');
+    const closeBtn = document.getElementById('closeChangelogModal');
+    const overlay = modal ? modal.querySelector('[data-modal-dismiss="changelog"]') : null;
+
+    if (!modal || !openBtn) return;
+
+    openBtn.addEventListener('click', openChangelogModal);
+    closeBtn?.addEventListener('click', closeChangelogModal);
+    overlay?.addEventListener('click', closeChangelogModal);
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeChangelogModal();
+        }
+    });
+}
+
+function openChangelogModal() {
+    const modal = document.getElementById('changelogModal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+    populateChangelogModal();
+}
+
+function closeChangelogModal() {
+    const modal = document.getElementById('changelogModal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+}
+
+async function populateChangelogModal() {
+    const versionLabel = document.getElementById('changelogModalVersion');
+    const statusLabel = document.getElementById('changelogModalStatus');
+    const body = document.getElementById('changelogModalBody');
+
+    if (body) {
+        body.innerHTML = '<p class="text-center text-yellow">Loading changelog…</p>';
+    }
+    if (statusLabel) {
+        statusLabel.textContent = 'Pulling notes from the latest release feed…';
+    }
+
+    try {
+        const releaseInfo = await getReleaseMetadata();
+
+        if (versionLabel && releaseInfo.latestVersionName) {
+            versionLabel.textContent = `v${releaseInfo.latestVersionName}`;
+        }
+
+        if (statusLabel) {
+            statusLabel.textContent = releaseInfo.mandatory ? 'This update is marked as mandatory.' : 'This update is optional.';
+        }
+
+        if (!releaseInfo.changelog) {
+            if (body) {
+                body.innerHTML = '<p class="text-center text-yellow">No changelog provided for this build.</p>';
+            }
+            return;
+        }
+
+        const rendered = markdownToHtml(releaseInfo.changelog);
+        if (body) {
+            body.innerHTML = rendered;
+        }
+    } catch (error) {
+        console.error('Unable to load changelog modal:', error);
+        if (statusLabel) {
+            statusLabel.textContent = 'Failed to reach update service.';
+        }
+        if (body) {
+            body.innerHTML = '<p class="text-center text-red-300">Unable to load changelog right now. Please try again later.</p>';
+        }
+    }
+}
+
+async function getReleaseMetadata(forceRefresh = false) {
+    if (releaseMetadata && !forceRefresh) {
+        return releaseMetadata;
+    }
+
+    if (releaseMetadataPromise && !forceRefresh) {
+        return releaseMetadataPromise;
+    }
+
+    releaseMetadataPromise = (async () => {
+        const response = await fetch(UPDATE_ENDPOINT, { cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error(`Update endpoint responded with ${response.status}`);
+        }
+        const data = await response.json();
+        releaseMetadata = data;
+        return data;
+    })();
+
+    try {
+        const data = await releaseMetadataPromise;
+        releaseMetadataPromise = null;
+        return data;
+    } catch (error) {
+        releaseMetadataPromise = null;
+        throw error;
+    }
 }
